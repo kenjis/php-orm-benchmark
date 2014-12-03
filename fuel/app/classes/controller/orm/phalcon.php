@@ -28,9 +28,9 @@ class Controller_Orm_Phalcon extends Controller
         
         $this->setup();
         
-        $post = Model_Phalcon_Orm_Post::find('id = ' . $id);
-        echo $post[0]->title . '<br>' . "\n";
-        $comment = $post[0]->getComments(["order" => "created_at DESC"]);
+        $post = Model_Phalcon_Orm_Post::findFirst($id);
+        echo $post->title . '<br>' . "\n";
+        $comment = $post->getComments(["order" => "created_at DESC"]);
         echo $comment[0]->body . '<br>' . "\n";
         
         echo microtime(true) - $timeStart . " secs<br>\n";
