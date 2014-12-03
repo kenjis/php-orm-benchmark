@@ -1,3 +1,3 @@
-Please read the project contibuting guidelines before creating an issue of sending in a pull request:
+# Contributing to PHP ORM Benchmark
 
-https://github.com/fuel/fuel/wiki/Contributing
+Please send Pull Requests to `develop` branch.
