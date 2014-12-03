@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "fc4e3b1e8d5d1d968f075c63ffd6738a",
+    "hash": "34a8c66b8be9e3793ef9e87cca0d59c8",
     "packages": [
         {
             "name": "composer/installers",
@@ -172,22 +172,6 @@
             "dist": {
                 "type": "zip",
                 "url": "https://github.com/fuel/core/archive/1.7/master.zip",
-                "reference": null,
-                "shasum": null
-            },
-            "type": "fuel-package"
-        },
-        {
-            "name": "fuel/docs",
-            "version": "1.7.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/fuel/docs.git",
-                "reference": "1.8/develop"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/fuel/docs/archive/1.7/master.zip",
                 "reference": null,
                 "shasum": null
             },

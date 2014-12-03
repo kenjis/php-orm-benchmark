@@ -129,7 +129,6 @@
         "php": ">=5.4.0",
         "ext-phalcon": ">=1.3.0",
         "composer/installers": "~1.0",
-        "fuel/docs": "1.7.2",
         "fuel/core": "1.7.2",
         "fuel/auth": "1.7.2",
         "fuel/email": "1.7.2",
