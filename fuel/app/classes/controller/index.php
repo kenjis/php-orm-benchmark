@@ -9,7 +9,7 @@ class Controller_Index extends Controller
         $output = APPPATH . '/cache/benchmark-results.json';
         $results = json_decode(file_get_contents($output), true);
 
-        $barColors = array('pink', 'purple', 'orange', 'red', 'blue', 'gray', 'green');
+        $barColors = array('pink', 'purple', 'green', 'red', 'blue', 'gray', 'orange');
 
         // Time Benchmark
         $data[] = array('', 'time', array('role' => 'style'));  // header
