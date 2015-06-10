@@ -164,5 +164,8 @@
             "php oil r install"
         ]
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-0": {"": "fuel/app/classes/model/doctrine"}
+    }
 }

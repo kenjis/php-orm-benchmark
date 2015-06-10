@@ -5,8 +5,8 @@ require __DIR__ . '/fuel/vendor/autoload.php';
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
 
-$paths = [__DIR__ . '/fuel/app/model/doctrine/entity'];
-$isDevMode = false;
+$paths = [__DIR__ . '/fuel/app/classes/model/doctrine'];
+$isDevMode = true;
 
 // the connection configuration
 $dbParams = [
