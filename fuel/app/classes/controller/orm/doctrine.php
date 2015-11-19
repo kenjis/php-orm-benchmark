@@ -11,7 +11,7 @@ class Controller_Orm_Doctrine extends Controller_Base
     {
         $db = $this->get_db_params();
         
-        $entitiesPaths = [__DIR__];
+        $entitiesPaths = [APPPATH . 'classes/model/doctrine'];
         $isDevMode = false;
         $config = Setup::createAnnotationMetadataConfiguration(
             $entitiesPaths, $isDevMode
