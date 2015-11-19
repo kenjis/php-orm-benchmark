@@ -47,7 +47,6 @@ class Post
      *
      * @OneToMany(targetEntity="Comment", mappedBy="post")
      * @OrderBy({"created_at" = "DESC"})
-     * @TODO This OrderBy does not work
      */
     protected $comments;
 
