@@ -76,6 +76,7 @@ class Controller_Index extends Controller
         echo '<li>' . Html::anchor('orm/eloquent/get_one', 'Eloquent ORM');
         echo '<li>' . Html::anchor('orm/fuel/get_one', 'FuelPHP 1.x ORM');
         echo '<li>' . Html::anchor('orm/phalcon/get_one', 'Phalcon ORM');
+        echo '<li>' . Html::anchor('orm/doctrine/get_one', 'Doctrine ORM');
         echo '</ul>';
         
         echo microtime(true) - $timeStart . " secs<br>\n";
