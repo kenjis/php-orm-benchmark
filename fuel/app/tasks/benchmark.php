@@ -9,7 +9,7 @@ class Benchmark
         $url = 'http://localhost';
         $output = APPPATH  . '/cache/benchmark-results.json';
 
-        $orms = ['eloquent', 'fuel', 'phalcon'];
+        $orms = ['eloquent', 'fuel', 'phalcon', 'doctrine'];
 
         foreach ($orms as $orm) {
             echo 'Benchmarking ' . $orm . ' ...';
