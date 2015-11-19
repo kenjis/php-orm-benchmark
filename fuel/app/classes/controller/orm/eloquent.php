@@ -15,11 +15,13 @@ class Controller_Orm_Eloquent extends Controller
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',
         ]);
-        $capsule->setEventDispatcher(new Illuminate\Events\Dispatcher(new Illuminate\Container\Container));
+        $capsule->setEventDispatcher(
+            new Illuminate\Events\Dispatcher(new Illuminate\Container\Container)
+        );
         $capsule->setAsGlobal();
         $capsule->bootEloquent();
     }
-    
+
     public function action_get_one($id = 1)
     {
         $timeStart = microtime(true);

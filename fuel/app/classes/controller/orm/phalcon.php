@@ -20,7 +20,7 @@ class Controller_Orm_Phalcon extends Controller
             return new Phalcon\Mvc\Model\Metadata\Memory();
         });
     }
-    
+
     public function action_get_one($id = 1)
     {
         $timeStart = microtime(true);
