@@ -3,12 +3,14 @@
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
 
-class Controller_Orm_Doctrine extends Controller
+class Controller_Orm_Doctrine extends Controller_Base
 {
     private $em;
 
     public function setup()
     {
+        $db = $this->get_db_params();
+        
         $entitiesPaths = [__DIR__];
         $isDevMode = false;
         $config = Setup::createAnnotationMetadataConfiguration(
@@ -16,10 +18,10 @@ class Controller_Orm_Doctrine extends Controller
         );
         $dbParams = [
             'driver'    => 'pdo_mysql',
-            'host'      => 'localhost',
-            'dbname'    => 'php_dev',
-            'user'      => 'root',
-            'password'  => 'root',
+            'host'      => $db['host'],
+            'dbname'    => $db['dbname'],
+            'user'      => $db['username'],
+            'password'  => $db['password'],
             'charset'   => 'utf8',
         ];
         $this->em = EntityManager::create($dbParams, $config);

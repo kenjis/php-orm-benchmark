@@ -1,6 +1,6 @@
 <?php
 
-class Controller_Orm_Fuel extends Controller
+class Controller_Orm_Fuel extends Controller_Base
 {
     public function action_get_one($id = 1)
     {

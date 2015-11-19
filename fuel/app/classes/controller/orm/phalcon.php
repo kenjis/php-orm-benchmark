@@ -1,19 +1,21 @@
 <?php
 
-class Controller_Orm_Phalcon extends Controller
+class Controller_Orm_Phalcon extends Controller_Base
 {
     public function setup()
     {
+        $db = $this->get_db_params();
+        
         $di = new Phalcon\DI();
         $di->set('modelsManager', function() {
              return new Phalcon\Mvc\Model\Manager();
         });
-        $di->set('db', function () {
+        $di->set('db', function () use ($db) {
             return new Phalcon\Db\Adapter\Pdo\Mysql([
-                'host'     => 'localhost',
-                'username' => 'root',
-                'password' => 'root',
-                'dbname'   => 'php_dev'
+                'host'     => $db['host'],
+                'username' => $db['username'],
+                'password' => $db['password'],
+                'dbname'   => $db['dbname'],
             ]);
         });
         $di->set('modelsMetadata', function () {

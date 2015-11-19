@@ -1,16 +1,18 @@
 <?php
 
-class Controller_Orm_Eloquent extends Controller
+class Controller_Orm_Eloquent extends Controller_Base
 {
     public function setup()
     {
+        $db = $this->get_db_params();
+        
         $capsule = new Illuminate\Database\Capsule\Manager;
         $capsule->addConnection([
             'driver'    => 'mysql',
-            'host'      => 'localhost',
-            'database'  => 'php_dev',
-            'username'  => 'root',
-            'password'  => 'root',
+            'host'      => $db['host'],
+            'database'  => $db['dbname'],
+            'username'  => $db['username'],
+            'password'  => $db['password'],
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',
