@@ -18,6 +18,8 @@ Install composer packages.
 $ composer install
 ~~~
 
+You may skip Phalcon by running `composer install --ignore-platform-reqs` if you do not have it installed.
+
 Create database `php_dev` and import schema `schema/php_dev.sql`.
 
 Configure `fuel/app/config/development/db.php`.
@@ -35,3 +37,6 @@ See <http://localhost/>.
 * [Eloquent ORM](https://github.com/illuminate/database)
 * [FuelPHP 1.x ORM](http://fuelphp.com/docs/packages/orm/intro.html)
 * [Phalcon ORM](http://docs.phalconphp.com/en/latest/reference/models.html)
+* [Yii 2 ActiveRecord](http://www.yiiframework.com/doc-2.0/guide-db-active-record.html)
+* [Yii 1 ActiveRecord](http://www.yiiframework.com/doc/guide/1.1/en/database.ar)
+
