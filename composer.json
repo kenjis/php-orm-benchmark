@@ -29,7 +29,15 @@
         "michelf/php-markdown": "1.4.0",
         "devster/ubench": "1.1.*",
         "illuminate/database": "4.2.*",
-        "doctrine/orm": "2.5.*"
+        "doctrine/orm": "2.5.*",
+        "yiisoft/yii2": "~2.0.6",
+        "yiisoft/yii": "~1.1.16"
+    },
+    "provide": {
+        "bower-asset/jquery": "*",
+        "bower-asset/yii2-pjax": "*",
+        "bower-asset/punycode": "*",
+        "bower-asset/jquery.inputmask": "*"
     },
     "suggest": {
         "dwoo/dwoo" : "Allow Dwoo templating with the Parser package",
