@@ -9,7 +9,17 @@
 1. Yii ActiveRecord 1.1.16
 1. Yii ActiveRecord 2.0.6
 
+## Benchmarking Environment
+
+* CentOS 6.6 64bit (VM; VirtualBox)
+  * PHP 5.5.30 (Remi RPM)
+    * Zend OPcache v7.0.4-dev
+  * MySQL 5.1
+  * Apache 2.2
+
 ## Results
+
+(2015/12/06)
 
 |orm                |time (ms)|memory   |
 |-------------------|--------:|--------:|
@@ -22,15 +32,17 @@
 
 ## How to Benchmark
 
-Install this repository and set `public` folder as your Web document root <http://localhost/>.
-
-Install composer packages.
+Install this repository and install composer packages.
 
 ~~~
+$ git clone https://github.com/kenjis/php-orm-benchmark.git
+$ cd php-orm-benchmark
 $ composer install
 ~~~
 
 You may skip Phalcon by running `composer install --ignore-platform-reqs` if you do not have it installed.
+
+Set `public` folder as your web document root. If you access <http://localhost/>, you can see the results graph.
 
 Create database `php_dev` and import schema `schema/php_dev.sql`.
 
@@ -46,8 +58,9 @@ See <http://localhost/>.
 
 ## References
 
+* [Doctrine ORM](http://www.doctrine-project.org/projects/orm.html)
 * [Eloquent ORM](https://github.com/illuminate/database)
 * [FuelPHP 1.x Orm](http://fuelphp.com/docs/packages/orm/intro.html)
 * [Phalcon ORM](http://docs.phalconphp.com/en/latest/reference/models.html)
-* [Yii 2 ActiveRecord](http://www.yiiframework.com/doc-2.0/guide-db-active-record.html)
 * [Yii 1 ActiveRecord](http://www.yiiframework.com/doc/guide/1.1/en/database.ar)
+* [Yii 2 ActiveRecord](http://www.yiiframework.com/doc-2.0/guide-db-active-record.html)
