@@ -27,6 +27,8 @@ desktop.ini
 /fuel/packages/orm/
 /fuel/packages/parser/
 
+fuel/packages/fuel-db-seeder/
+
 # dynamically generated files
 /fuel/app/logs/*/*/*
 /fuel/app/cache/*/*
