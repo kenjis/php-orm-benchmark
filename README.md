@@ -19,6 +19,8 @@
 
 ## Results
 
+These are my benchmarks, not yours. **I encourage you to run on your environments.**
+
 (2015/12/06)
 
 |orm                |time (ms)|memory (KB) |
