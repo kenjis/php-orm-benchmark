@@ -10,7 +10,8 @@ class Post extends \yii\db\ActiveRecord
 {
     public static $db;
 
-    public static function getDb() {
+    public static function getDb()
+    {
         return static::$db;
     }
 
@@ -21,6 +22,9 @@ class Post extends \yii\db\ActiveRecord
 
     public function getComments()
     {
-        return $this->hasMany(Comment::className(), ['post_id' => 'id'])->orderBy(['created_at' => SORT_DESC]);
+        return $this->hasMany(
+            Comment::className(),
+            ['post_id' => 'id'])->orderBy(['created_at' => SORT_DESC]
+        );
     }
 }

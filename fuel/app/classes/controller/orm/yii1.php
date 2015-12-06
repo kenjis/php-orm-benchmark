@@ -11,7 +11,11 @@ class Controller_Orm_Yii1 extends Controller_Base
         require_once("$basePath/app/classes/model/yii1/Post.php");
 
         $dbConfig = $this->get_db_params();
-        $db = new CDbConnection("mysql:host={$dbConfig['host']};dbname={$dbConfig['dbname']};charset=utf8", $dbConfig['username'], $dbConfig['password']);
+        $db = new CDbConnection(
+            "mysql:host={$dbConfig['host']};dbname={$dbConfig['dbname']};charset=utf8",
+            $dbConfig['username'],
+            $dbConfig['password']
+        );
         CActiveRecord::$db = $db;
     }
 

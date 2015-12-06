@@ -6,7 +6,8 @@ class Comment extends \yii\db\ActiveRecord
 {
     public static $db;
 
-    public static function getDb() {
+    public static function getDb()
+    {
         return static::$db;
     }
 

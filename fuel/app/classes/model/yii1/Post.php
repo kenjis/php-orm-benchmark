@@ -6,7 +6,7 @@
  */
 class Model_Yii1_Post extends CActiveRecord
 {
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
@@ -19,7 +19,12 @@ class Model_Yii1_Post extends CActiveRecord
     public function relations()
     {
         return array(
-            'comments'=>array(self::HAS_MANY, 'Model_Yii1_Comment', 'post_id', 'order' => 'created_at DESC'),
+            'comments'=>array(
+                self::HAS_MANY,
+                'Model_Yii1_Comment',
+                'post_id',
+                'order' => 'created_at DESC'
+            ),
         );
     }
 }
