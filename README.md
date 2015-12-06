@@ -32,7 +32,7 @@
 
 ## How to Benchmark
 
-Install this repository and install composer packages.
+(1) Install this repository and install composer packages.
 
 ~~~
 $ git clone https://github.com/kenjis/php-orm-benchmark.git
@@ -40,15 +40,15 @@ $ cd php-orm-benchmark
 $ composer install
 ~~~
 
-You may skip Phalcon by running `composer install --ignore-platform-reqs` if you do not have it installed.
+You may skip Phalcon by running `composer install --ignore-platform-reqs`, if you do not have it installed.
 
-Set `public` folder as your web document root. If you access <http://localhost/>, you can see the results graph.
+(2) Set `public` folder as your web document root. If you access <http://localhost/>, you can see the results graph.
 
-Create database `php_dev` and import schema `schema/php_dev.sql`.
+(3) Create database `php_dev` and import schema `schema/php_dev.sql`.
 
-Configure `fuel/app/config/development/db.php`.
+(4) Configure `fuel/app/config/development/db.php`.
 
-Rum benchmarks.
+(5) Run benchmarks.
 
 ~~~
 $ php oil r benchmark
