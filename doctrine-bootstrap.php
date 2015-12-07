@@ -11,10 +11,10 @@ $isDevMode = true;
 // the connection configuration
 $dbParams = [
     'driver'    => 'pdo_mysql',
-    'host'      => 'localhost',
-    'dbname'    => 'php_dev',
-    'user'      => 'root',
-    'password'  => 'root',
+    'host'      => getenv('DB_HOSTNAME') ? getenv('DB_HOSTNAME') : 'localhost',
+    'dbname'    => getenv('DB_NAME') ? getenv('DB_NAME') : 'php_dev',
+    'user'      => getenv('DB_USER') ? getenv('DB_USER') : 'root',
+    'password'  => getenv('DB_PW') ? getenv('DB_PW') : 'root',
     'charset'   => 'utf8',
 ];
 

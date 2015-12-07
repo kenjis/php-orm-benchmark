@@ -9,7 +9,11 @@
 1. Yii ActiveRecord 1.1.16
 1. Yii ActiveRecord 2.0.6
 
-## Benchmarking Environment
+## Results
+
+### Benchmarking Environment 1
+
+These are my (kenjis) benchmarks, not yours. **I encourage you to run on your environments.**
 
 * CentOS 6.6 64bit (VM; VirtualBox)
   * PHP 5.5.30 (Remi RPM)
@@ -17,11 +21,7 @@
   * MySQL 5.1
   * Apache 2.2
 
-## Results
-
-These are my benchmarks, not yours. **I encourage you to run on your environments.**
-
-(2015/12/06)
+(2015-Dec-06)
 
 |orm                |time (ms)|memory (KB) |
 |-------------------|--------:|-----------:|
@@ -31,6 +31,28 @@ These are my benchmarks, not yours. **I encourage you to run on your environment
 |fuel               |    13.23|      389.73|
 |yii2               |     9.09|      835.77|
 |phalcon            |     7.70|      150.00|
+
+### Benchmarking Environment 2
+
+These are [motin](https://github.com/motin)'s benchmarks, running on a MacBook Pro (Retina, 15-inch, Mid 2014) using the supplied Docker environment.
+
+* Ubuntu 15.04 64bit (Docker)
+  * PHP-FPM 5.6.4
+    * Zend OPcache 7.0.4-dev
+    * PhalconPHP 2.0.9
+  * MySQL 5.6.27
+  * Nginx 1.7.12
+
+(2015-Dec-07)
+
+|orm                |time (ms)|memory (KB) |
+|-------------------|--------:|-----------:|
+|doctrine           |    77.57|     1297.48|
+|eloquent           |    25.89|      671.20|
+|yii1               |    14.14|      800.39|
+|fuel               |     9.26|      381.07|
+|yii2               |     7.20|      818.16|
+|phalcon            |     5.66|      149.42|
 
 ## How to Benchmark
 
@@ -57,6 +79,64 @@ $ php oil r benchmark
 ~~~
 
 See <http://localhost/>.
+
+## Benchmarking using the supplied Docker Stack
+
+Use the supplied Docker Stack in order to automatically set up the following benchmarking environments:
+
+* Ubuntu 15.04 64bit (Docker)
+  * PHP-FPM 5.6.4
+    * Zend OPcache 7.0.4-dev
+    * PhalconPHP 2.0.9
+  * MySQL 5.6.27
+  * Nginx 1.7.12
+
+By sharing underlying software stacks, the benchmark results vary only according to the host machine's hardware specs and ORM implementations.
+
+### Getting Started
+
+Install [Docker Toolbox](https://www.docker.com/docker-toolbox).
+
+Cd into the docker directory of this repo and make sure that docker toolbox is available:
+~~~
+cd docker
+eval "$(docker-machine env default)"
+~~~
+
+Start the supplied docker shell from within this repository's `docker` folder:
+~~~
+docker-compose run shell /bin/bash
+~~~
+
+Install composer dependencies:
+~~~
+composer install
+~~~
+
+Start the Nginx/PHP server stack:
+~~~
+docker-compose up -d
+~~~
+
+Create database `php_dev` and import schema `schema/php_dev.sql`:
+~~~
+bin/setup.mysql.sh
+~~~
+
+Run benchmarks:
+~~~
+php oil r benchmark
+~~~
+
+### Check the results
+
+To see the results graph, run the following script from outside the docker shell, from the repository root:
+
+~~~
+bin/docker-url.sh
+~~~
+
+It echoes an URL, which you should open up in your browser.
 
 ## References
 
