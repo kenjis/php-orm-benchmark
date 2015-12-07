@@ -1,0 +1,62 @@
+# Shell to run benchmarks within
+shell:
+  build: ./stack/php/image
+  links:
+    - nginx
+    - mysql
+  volumes:
+    - ..:/repo:rw
+  environment:
+    DB_HOSTNAME: mysql
+    DB_NAME: php_dev
+    DB_USER: root
+    DB_PW: local-mysql-pass
+    WEB_HOST: nginx
+  working_dir: '/repo'
+  command: "true"
+
+# PHP
+php:
+  build: ./stack/php/image
+  links:
+    - mysql
+  volumes:
+    - ..:/repo:rw
+    - ../fuel:/fuel:rw
+    - ../public:/public:rw
+    - ./stack/php/:/stack/php:rw
+  ports:
+    - "9000"
+  environment:
+    DB_HOSTNAME: mysql
+    DB_NAME: php_dev
+    DB_USER: root
+    DB_PW: local-mysql-pass
+    WEB_HOST: nginx
+  working_dir: '/repo'
+  command: "/stack/php/run.sh"
+
+# Nginx
+nginx:
+  image: nginx:1.7
+  links:
+    - php
+  volumes:
+    - ../public:/public:rw
+    - ./stack/nginx/:/stack/nginx:rw
+  ports:
+    - "80"
+  working_dir: '/app'
+  command: "/stack/nginx/run.sh"
+
+# MySQL
+mysql:
+  image: mysql:5.6.27
+  volumes:
+    - ./stack/mysql/.db/mysql:/var/lib/mysql:rw
+    - ./stack/mysql/:/stack/mysql:rw
+  ports:
+    - "3306"
+  environment:
+    MYSQL_ROOT_PASSWORD: "local-mysql-pass"
+  command: "/stack/mysql/run.sh"
