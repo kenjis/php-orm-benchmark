@@ -30,6 +30,7 @@
         "michelf/php-markdown": "1.4.0",
         "devster/ubench": "1.1.*",
         "illuminate/database": "4.2.*",
+        "propel/propel": "~2.0@dev",
         "doctrine/orm": "2.5.*",
         "yiisoft/yii2": "~2.0.6",
         "yiisoft/yii": "~1.1.16"
@@ -67,6 +68,7 @@
     },
     "minimum-stability": "stable",
     "autoload": {
-        "psr-0": {"": "fuel/app/classes/model/doctrine"}
+        "psr-0": {"": "fuel/app/classes/model/doctrine"},
+        "psr-4": {"propel\\": "fuel/generated-classes/propel/"}
     }
 }
