@@ -103,19 +103,19 @@ cd docker
 eval "$(docker-machine env default)"
 ~~~
 
+Start the Nginx/PHP server stack:
+~~~
+docker-compose up -d
+~~~
+
 Start the supplied docker shell from within this repository's `docker` folder:
 ~~~
-docker-compose run shell /bin/bash
+docker-compose run shell
 ~~~
 
 Install composer dependencies:
 ~~~
 composer install
-~~~
-
-Start the Nginx/PHP server stack:
-~~~
-docker-compose up -d
 ~~~
 
 Create database `php_dev` and import schema `schema/php_dev.sql`:
@@ -126,6 +126,11 @@ bin/setup.mysql.sh
 Run benchmarks:
 ~~~
 php oil r benchmark
+~~~
+
+Format benchmark results into markdown:
+~~~
+bin/results-to-markdown.sh
 ~~~
 
 ### Check the results
