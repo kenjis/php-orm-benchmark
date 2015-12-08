@@ -74,7 +74,13 @@ You may skip Phalcon by running `composer install --ignore-platform-reqs`, if yo
 
 (4) Configure `fuel/app/config/development/db.php`.
 
-(5) Run benchmarks.
+(5) Generate config file for Propel.
+
+~~~
+$ bin/setup.propel2.sh
+~~~
+
+(6) Run benchmarks.
 
 ~~~
 $ php oil r benchmark
