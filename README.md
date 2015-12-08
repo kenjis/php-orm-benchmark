@@ -125,6 +125,11 @@ Create database `php_dev` and import schema `schema/php_dev.sql`:
 bin/setup.mysql.sh
 ~~~
 
+Generate the configuration file for Propel 2:
+~~~
+bin/setup.propel2.sh
+~~~
+
 Run benchmarks:
 ~~~
 php oil r benchmark
