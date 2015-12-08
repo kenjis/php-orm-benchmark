@@ -1,6 +1,7 @@
 <?php
 
-use \propel\models\PostQuery;
+use \propel2\PostQuery;
+use \Propel\Runtime\ActiveQuery\Criteria;
 
 class Controller_Orm_Propel2 extends Controller_Base
 {
@@ -17,7 +18,12 @@ class Controller_Orm_Propel2 extends Controller_Base
         
         $this->setup();
         
-        $post = PostQuery::create()->findPk($id);
+        $post = PostQuery::create()
+          ->useCommentQuery()
+            ->orderByCreatedAt(Criteria::DESC)
+            ->limit(1)
+          ->endUse()
+          ->findPk($id);
 
         echo $post->getTitle() . '<br>' . "\n";
         $comments = $post->getComments();

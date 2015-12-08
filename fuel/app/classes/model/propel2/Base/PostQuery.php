@@ -1,6 +1,6 @@
 <?php
 
-namespace propel\models\Base;
+namespace propel2\Base;
 
 use \Exception;
 use \PDO;
@@ -11,9 +11,9 @@ use Propel\Runtime\ActiveQuery\ModelJoin;
 use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
-use propel\models\Post as ChildPost;
-use propel\models\PostQuery as ChildPostQuery;
-use propel\models\Map\PostTableMap;
+use propel2\Post as ChildPost;
+use propel2\PostQuery as ChildPostQuery;
+use propel2\Map\PostTableMap;
 
 /**
  * Base class that represents a query for the 'post' table.
@@ -50,7 +50,7 @@ use propel\models\Map\PostTableMap;
  * @method     ChildPostQuery rightJoinWithComment() Adds a RIGHT JOIN clause and with to the query using the Comment relation
  * @method     ChildPostQuery innerJoinWithComment() Adds a INNER JOIN clause and with to the query using the Comment relation
  *
- * @method     \propel\models\CommentQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     \propel2\CommentQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildPost findOne(ConnectionInterface $con = null) Return the first ChildPost matching the query
  * @method     ChildPost findOneOrCreate(ConnectionInterface $con = null) Return the first ChildPost matching the query, or a new ChildPost object populated from the query conditions when no match is found
@@ -84,13 +84,13 @@ abstract class PostQuery extends ModelCriteria
     protected $entityNotFoundExceptionClass = '\\Propel\\Runtime\\Exception\\EntityNotFoundException';
 
     /**
-     * Initializes internal state of \propel\models\Base\PostQuery object.
+     * Initializes internal state of \propel2\Base\PostQuery object.
      *
      * @param     string $dbName The database name
      * @param     string $modelName The phpName of a model, e.g. 'Book'
      * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
      */
-    public function __construct($dbName = 'default', $modelName = '\\propel\\models\\Post', $modelAlias = null)
+    public function __construct($dbName = 'default', $modelName = '\\propel2\\Post', $modelAlias = null)
     {
         parent::__construct($dbName, $modelName, $modelAlias);
     }
@@ -440,16 +440,16 @@ abstract class PostQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query by a related \propel\models\Comment object
+     * Filter the query by a related \propel2\Comment object
      *
-     * @param \propel\models\Comment|ObjectCollection $comment the related object to use as filter
+     * @param \propel2\Comment|ObjectCollection $comment the related object to use as filter
      * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildPostQuery The current query, for fluid interface
      */
     public function filterByComment($comment, $comparison = null)
     {
-        if ($comment instanceof \propel\models\Comment) {
+        if ($comment instanceof \propel2\Comment) {
             return $this
                 ->addUsingAlias(PostTableMap::COL_ID, $comment->getPostId(), $comparison);
         } elseif ($comment instanceof ObjectCollection) {
@@ -458,7 +458,7 @@ abstract class PostQuery extends ModelCriteria
                 ->filterByPrimaryKeys($comment->getPrimaryKeys())
                 ->endUse();
         } else {
-            throw new PropelException('filterByComment() only accepts arguments of type \propel\models\Comment or Collection');
+            throw new PropelException('filterByComment() only accepts arguments of type \propel2\Comment or Collection');
         }
     }
 
@@ -503,13 +503,13 @@ abstract class PostQuery extends ModelCriteria
      *                                   to be used as main alias in the secondary query
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return \propel\models\CommentQuery A secondary query class using the current class as primary query
+     * @return \propel2\CommentQuery A secondary query class using the current class as primary query
      */
     public function useCommentQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         return $this
             ->joinComment($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'Comment', '\propel\models\CommentQuery');
+            ->useQuery($relationAlias ? $relationAlias : 'Comment', '\propel2\CommentQuery');
     }
 
     /**

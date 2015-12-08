@@ -1,6 +1,6 @@
 <?php
 
-namespace propel\models\Base;
+namespace propel2\Base;
 
 use \Exception;
 use \PDO;
@@ -9,30 +9,32 @@ use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 use Propel\Runtime\Collection\Collection;
+use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\BadMethodCallException;
 use Propel\Runtime\Exception\LogicException;
 use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
-use propel\models\CommentQuery as ChildCommentQuery;
-use propel\models\Post as ChildPost;
-use propel\models\PostQuery as ChildPostQuery;
-use propel\models\Map\CommentTableMap;
+use propel2\Comment as ChildComment;
+use propel2\CommentQuery as ChildCommentQuery;
+use propel2\Post as ChildPost;
+use propel2\PostQuery as ChildPostQuery;
+use propel2\Map\PostTableMap;
 
 /**
- * Base class that represents a row from the 'comment' table.
+ * Base class that represents a row from the 'post' table.
  *
  *
  *
-* @package    propel.generator.propel.models.Base
+* @package    propel.generator.propel2.Base
 */
-abstract class Comment implements ActiveRecordInterface
+abstract class Post implements ActiveRecordInterface
 {
     /**
      * TableMap class name
      */
-    const TABLE_MAP = '\\propel\\models\\Map\\CommentTableMap';
+    const TABLE_MAP = '\\propel2\\Map\\PostTableMap';
 
 
     /**
@@ -69,11 +71,11 @@ abstract class Comment implements ActiveRecordInterface
     protected $id;
 
     /**
-     * The value for the post_id field.
+     * The value for the title field.
      *
-     * @var        int
+     * @var        string
      */
-    protected $post_id;
+    protected $title;
 
     /**
      * The value for the body field.
@@ -97,9 +99,10 @@ abstract class Comment implements ActiveRecordInterface
     protected $updated_at;
 
     /**
-     * @var        ChildPost
+     * @var        ObjectCollection|ChildComment[] Collection to store aggregation of ChildComment objects.
      */
-    protected $aPost;
+    protected $collComments;
+    protected $collCommentsPartial;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -110,7 +113,13 @@ abstract class Comment implements ActiveRecordInterface
     protected $alreadyInSave = false;
 
     /**
-     * Initializes internal state of propel\models\Base\Comment object.
+     * An array of objects scheduled for deletion.
+     * @var ObjectCollection|ChildComment[]
+     */
+    protected $commentsScheduledForDeletion = null;
+
+    /**
+     * Initializes internal state of propel2\Base\Post object.
      */
     public function __construct()
     {
@@ -205,9 +214,9 @@ abstract class Comment implements ActiveRecordInterface
     }
 
     /**
-     * Compares this with another <code>Comment</code> instance.  If
-     * <code>obj</code> is an instance of <code>Comment</code>, delegates to
-     * <code>equals(Comment)</code>.  Otherwise, returns <code>false</code>.
+     * Compares this with another <code>Post</code> instance.  If
+     * <code>obj</code> is an instance of <code>Post</code>, delegates to
+     * <code>equals(Post)</code>.  Otherwise, returns <code>false</code>.
      *
      * @param  mixed   $obj The object to compare to.
      * @return boolean Whether equal to the object specified.
@@ -273,7 +282,7 @@ abstract class Comment implements ActiveRecordInterface
      * @param string $name  The virtual column name
      * @param mixed  $value The value to give to the virtual column
      *
-     * @return $this|Comment The current object, for fluid interface
+     * @return $this|Post The current object, for fluid interface
      */
     public function setVirtualColumn($name, $value)
     {
@@ -345,13 +354,13 @@ abstract class Comment implements ActiveRecordInterface
     }
 
     /**
-     * Get the [post_id] column value.
+     * Get the [title] column value.
      *
-     * @return int
+     * @return string
      */
-    public function getPostId()
+    public function getTitle()
     {
-        return $this->post_id;
+        return $this->title;
     }
 
     /**
@@ -388,7 +397,7 @@ abstract class Comment implements ActiveRecordInterface
      * Set the value of [id] column.
      *
      * @param int $v new value
-     * @return $this|\propel\models\Comment The current object (for fluent API support)
+     * @return $this|\propel2\Post The current object (for fluent API support)
      */
     public function setId($v)
     {
@@ -398,41 +407,37 @@ abstract class Comment implements ActiveRecordInterface
 
         if ($this->id !== $v) {
             $this->id = $v;
-            $this->modifiedColumns[CommentTableMap::COL_ID] = true;
+            $this->modifiedColumns[PostTableMap::COL_ID] = true;
         }
 
         return $this;
     } // setId()
 
     /**
-     * Set the value of [post_id] column.
+     * Set the value of [title] column.
      *
-     * @param int $v new value
-     * @return $this|\propel\models\Comment The current object (for fluent API support)
+     * @param string $v new value
+     * @return $this|\propel2\Post The current object (for fluent API support)
      */
-    public function setPostId($v)
+    public function setTitle($v)
     {
         if ($v !== null) {
-            $v = (int) $v;
+            $v = (string) $v;
         }
 
-        if ($this->post_id !== $v) {
-            $this->post_id = $v;
-            $this->modifiedColumns[CommentTableMap::COL_POST_ID] = true;
-        }
-
-        if ($this->aPost !== null && $this->aPost->getId() !== $v) {
-            $this->aPost = null;
+        if ($this->title !== $v) {
+            $this->title = $v;
+            $this->modifiedColumns[PostTableMap::COL_TITLE] = true;
         }
 
         return $this;
-    } // setPostId()
+    } // setTitle()
 
     /**
      * Set the value of [body] column.
      *
      * @param string $v new value
-     * @return $this|\propel\models\Comment The current object (for fluent API support)
+     * @return $this|\propel2\Post The current object (for fluent API support)
      */
     public function setBody($v)
     {
@@ -442,7 +447,7 @@ abstract class Comment implements ActiveRecordInterface
 
         if ($this->body !== $v) {
             $this->body = $v;
-            $this->modifiedColumns[CommentTableMap::COL_BODY] = true;
+            $this->modifiedColumns[PostTableMap::COL_BODY] = true;
         }
 
         return $this;
@@ -452,7 +457,7 @@ abstract class Comment implements ActiveRecordInterface
      * Set the value of [created_at] column.
      *
      * @param int $v new value
-     * @return $this|\propel\models\Comment The current object (for fluent API support)
+     * @return $this|\propel2\Post The current object (for fluent API support)
      */
     public function setCreatedAt($v)
     {
@@ -462,7 +467,7 @@ abstract class Comment implements ActiveRecordInterface
 
         if ($this->created_at !== $v) {
             $this->created_at = $v;
-            $this->modifiedColumns[CommentTableMap::COL_CREATED_AT] = true;
+            $this->modifiedColumns[PostTableMap::COL_CREATED_AT] = true;
         }
 
         return $this;
@@ -472,7 +477,7 @@ abstract class Comment implements ActiveRecordInterface
      * Set the value of [updated_at] column.
      *
      * @param int $v new value
-     * @return $this|\propel\models\Comment The current object (for fluent API support)
+     * @return $this|\propel2\Post The current object (for fluent API support)
      */
     public function setUpdatedAt($v)
     {
@@ -482,7 +487,7 @@ abstract class Comment implements ActiveRecordInterface
 
         if ($this->updated_at !== $v) {
             $this->updated_at = $v;
-            $this->modifiedColumns[CommentTableMap::COL_UPDATED_AT] = true;
+            $this->modifiedColumns[PostTableMap::COL_UPDATED_AT] = true;
         }
 
         return $this;
@@ -524,19 +529,19 @@ abstract class Comment implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : CommentTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : PostTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : CommentTableMap::translateFieldName('PostId', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->post_id = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : PostTableMap::translateFieldName('Title', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->title = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : CommentTableMap::translateFieldName('Body', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : PostTableMap::translateFieldName('Body', TableMap::TYPE_PHPNAME, $indexType)];
             $this->body = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : CommentTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : PostTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
             $this->created_at = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : CommentTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : PostTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
             $this->updated_at = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
@@ -546,10 +551,10 @@ abstract class Comment implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 5; // 5 = CommentTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 5; // 5 = PostTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException(sprintf('Error populating %s object', '\\propel\\models\\Comment'), 0, $e);
+            throw new PropelException(sprintf('Error populating %s object', '\\propel2\\Post'), 0, $e);
         }
     }
 
@@ -568,9 +573,6 @@ abstract class Comment implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
-        if ($this->aPost !== null && $this->post_id !== $this->aPost->getId()) {
-            $this->aPost = null;
-        }
     } // ensureConsistency
 
     /**
@@ -594,13 +596,13 @@ abstract class Comment implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(CommentTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(PostTableMap::DATABASE_NAME);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $dataFetcher = ChildCommentQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
+        $dataFetcher = ChildPostQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
         $row = $dataFetcher->fetch();
         $dataFetcher->close();
         if (!$row) {
@@ -610,7 +612,8 @@ abstract class Comment implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->aPost = null;
+            $this->collComments = null;
+
         } // if (deep)
     }
 
@@ -620,8 +623,8 @@ abstract class Comment implements ActiveRecordInterface
      * @param      ConnectionInterface $con
      * @return void
      * @throws PropelException
-     * @see Comment::setDeleted()
-     * @see Comment::isDeleted()
+     * @see Post::setDeleted()
+     * @see Post::isDeleted()
      */
     public function delete(ConnectionInterface $con = null)
     {
@@ -630,11 +633,11 @@ abstract class Comment implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(CommentTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(PostTableMap::DATABASE_NAME);
         }
 
         $con->transaction(function () use ($con) {
-            $deleteQuery = ChildCommentQuery::create()
+            $deleteQuery = ChildPostQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -665,7 +668,7 @@ abstract class Comment implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(CommentTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(PostTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
@@ -684,7 +687,7 @@ abstract class Comment implements ActiveRecordInterface
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                CommentTableMap::addInstanceToPool($this);
+                PostTableMap::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -710,18 +713,6 @@ abstract class Comment implements ActiveRecordInterface
         if (!$this->alreadyInSave) {
             $this->alreadyInSave = true;
 
-            // We call the save method on the following object(s) if they
-            // were passed to this object by their corresponding set
-            // method.  This object relates to these object(s) by a
-            // foreign key reference.
-
-            if ($this->aPost !== null) {
-                if ($this->aPost->isModified() || $this->aPost->isNew()) {
-                    $affectedRows += $this->aPost->save($con);
-                }
-                $this->setPost($this->aPost);
-            }
-
             if ($this->isNew() || $this->isModified()) {
                 // persist changes
                 if ($this->isNew()) {
@@ -731,6 +722,23 @@ abstract class Comment implements ActiveRecordInterface
                     $affectedRows += $this->doUpdate($con);
                 }
                 $this->resetModified();
+            }
+
+            if ($this->commentsScheduledForDeletion !== null) {
+                if (!$this->commentsScheduledForDeletion->isEmpty()) {
+                    \propel2\CommentQuery::create()
+                        ->filterByPrimaryKeys($this->commentsScheduledForDeletion->getPrimaryKeys(false))
+                        ->delete($con);
+                    $this->commentsScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collComments !== null) {
+                foreach ($this->collComments as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
             }
 
             $this->alreadyInSave = false;
@@ -753,30 +761,30 @@ abstract class Comment implements ActiveRecordInterface
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[CommentTableMap::COL_ID] = true;
+        $this->modifiedColumns[PostTableMap::COL_ID] = true;
         if (null !== $this->id) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . CommentTableMap::COL_ID . ')');
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . PostTableMap::COL_ID . ')');
         }
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(CommentTableMap::COL_ID)) {
+        if ($this->isColumnModified(PostTableMap::COL_ID)) {
             $modifiedColumns[':p' . $index++]  = 'id';
         }
-        if ($this->isColumnModified(CommentTableMap::COL_POST_ID)) {
-            $modifiedColumns[':p' . $index++]  = 'post_id';
+        if ($this->isColumnModified(PostTableMap::COL_TITLE)) {
+            $modifiedColumns[':p' . $index++]  = 'title';
         }
-        if ($this->isColumnModified(CommentTableMap::COL_BODY)) {
+        if ($this->isColumnModified(PostTableMap::COL_BODY)) {
             $modifiedColumns[':p' . $index++]  = 'body';
         }
-        if ($this->isColumnModified(CommentTableMap::COL_CREATED_AT)) {
+        if ($this->isColumnModified(PostTableMap::COL_CREATED_AT)) {
             $modifiedColumns[':p' . $index++]  = 'created_at';
         }
-        if ($this->isColumnModified(CommentTableMap::COL_UPDATED_AT)) {
+        if ($this->isColumnModified(PostTableMap::COL_UPDATED_AT)) {
             $modifiedColumns[':p' . $index++]  = 'updated_at';
         }
 
         $sql = sprintf(
-            'INSERT INTO comment (%s) VALUES (%s)',
+            'INSERT INTO post (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -788,8 +796,8 @@ abstract class Comment implements ActiveRecordInterface
                     case 'id':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'post_id':
-                        $stmt->bindValue($identifier, $this->post_id, PDO::PARAM_INT);
+                    case 'title':
+                        $stmt->bindValue($identifier, $this->title, PDO::PARAM_STR);
                         break;
                     case 'body':
                         $stmt->bindValue($identifier, $this->body, PDO::PARAM_STR);
@@ -846,7 +854,7 @@ abstract class Comment implements ActiveRecordInterface
      */
     public function getByName($name, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = CommentTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = PostTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -866,7 +874,7 @@ abstract class Comment implements ActiveRecordInterface
                 return $this->getId();
                 break;
             case 1:
-                return $this->getPostId();
+                return $this->getTitle();
                 break;
             case 2:
                 return $this->getBody();
@@ -901,14 +909,14 @@ abstract class Comment implements ActiveRecordInterface
     public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
 
-        if (isset($alreadyDumpedObjects['Comment'][$this->hashCode()])) {
+        if (isset($alreadyDumpedObjects['Post'][$this->hashCode()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['Comment'][$this->hashCode()] = true;
-        $keys = CommentTableMap::getFieldNames($keyType);
+        $alreadyDumpedObjects['Post'][$this->hashCode()] = true;
+        $keys = PostTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getPostId(),
+            $keys[1] => $this->getTitle(),
             $keys[2] => $this->getBody(),
             $keys[3] => $this->getCreatedAt(),
             $keys[4] => $this->getUpdatedAt(),
@@ -919,20 +927,20 @@ abstract class Comment implements ActiveRecordInterface
         }
 
         if ($includeForeignObjects) {
-            if (null !== $this->aPost) {
+            if (null !== $this->collComments) {
 
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
-                        $key = 'post';
+                        $key = 'comments';
                         break;
                     case TableMap::TYPE_FIELDNAME:
-                        $key = 'post';
+                        $key = 'comments';
                         break;
                     default:
-                        $key = 'Post';
+                        $key = 'Comments';
                 }
 
-                $result[$key] = $this->aPost->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+                $result[$key] = $this->collComments->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
 
@@ -948,11 +956,11 @@ abstract class Comment implements ActiveRecordInterface
      *                one of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      *                Defaults to TableMap::TYPE_PHPNAME.
-     * @return $this|\propel\models\Comment
+     * @return $this|\propel2\Post
      */
     public function setByName($name, $value, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = CommentTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = PostTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
 
         return $this->setByPosition($pos, $value);
     }
@@ -963,7 +971,7 @@ abstract class Comment implements ActiveRecordInterface
      *
      * @param  int $pos position in xml schema
      * @param  mixed $value field value
-     * @return $this|\propel\models\Comment
+     * @return $this|\propel2\Post
      */
     public function setByPosition($pos, $value)
     {
@@ -972,7 +980,7 @@ abstract class Comment implements ActiveRecordInterface
                 $this->setId($value);
                 break;
             case 1:
-                $this->setPostId($value);
+                $this->setTitle($value);
                 break;
             case 2:
                 $this->setBody($value);
@@ -1007,13 +1015,13 @@ abstract class Comment implements ActiveRecordInterface
      */
     public function fromArray($arr, $keyType = TableMap::TYPE_PHPNAME)
     {
-        $keys = CommentTableMap::getFieldNames($keyType);
+        $keys = PostTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
             $this->setId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setPostId($arr[$keys[1]]);
+            $this->setTitle($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
             $this->setBody($arr[$keys[2]]);
@@ -1043,7 +1051,7 @@ abstract class Comment implements ActiveRecordInterface
      * @param string $data The source data to import from
      * @param string $keyType The type of keys the array uses.
      *
-     * @return $this|\propel\models\Comment The current object, for fluid interface
+     * @return $this|\propel2\Post The current object, for fluid interface
      */
     public function importFrom($parser, $data, $keyType = TableMap::TYPE_PHPNAME)
     {
@@ -1063,22 +1071,22 @@ abstract class Comment implements ActiveRecordInterface
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(CommentTableMap::DATABASE_NAME);
+        $criteria = new Criteria(PostTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(CommentTableMap::COL_ID)) {
-            $criteria->add(CommentTableMap::COL_ID, $this->id);
+        if ($this->isColumnModified(PostTableMap::COL_ID)) {
+            $criteria->add(PostTableMap::COL_ID, $this->id);
         }
-        if ($this->isColumnModified(CommentTableMap::COL_POST_ID)) {
-            $criteria->add(CommentTableMap::COL_POST_ID, $this->post_id);
+        if ($this->isColumnModified(PostTableMap::COL_TITLE)) {
+            $criteria->add(PostTableMap::COL_TITLE, $this->title);
         }
-        if ($this->isColumnModified(CommentTableMap::COL_BODY)) {
-            $criteria->add(CommentTableMap::COL_BODY, $this->body);
+        if ($this->isColumnModified(PostTableMap::COL_BODY)) {
+            $criteria->add(PostTableMap::COL_BODY, $this->body);
         }
-        if ($this->isColumnModified(CommentTableMap::COL_CREATED_AT)) {
-            $criteria->add(CommentTableMap::COL_CREATED_AT, $this->created_at);
+        if ($this->isColumnModified(PostTableMap::COL_CREATED_AT)) {
+            $criteria->add(PostTableMap::COL_CREATED_AT, $this->created_at);
         }
-        if ($this->isColumnModified(CommentTableMap::COL_UPDATED_AT)) {
-            $criteria->add(CommentTableMap::COL_UPDATED_AT, $this->updated_at);
+        if ($this->isColumnModified(PostTableMap::COL_UPDATED_AT)) {
+            $criteria->add(PostTableMap::COL_UPDATED_AT, $this->updated_at);
         }
 
         return $criteria;
@@ -1096,8 +1104,8 @@ abstract class Comment implements ActiveRecordInterface
      */
     public function buildPkeyCriteria()
     {
-        $criteria = ChildCommentQuery::create();
-        $criteria->add(CommentTableMap::COL_ID, $this->id);
+        $criteria = ChildPostQuery::create();
+        $criteria->add(PostTableMap::COL_ID, $this->id);
 
         return $criteria;
     }
@@ -1159,17 +1167,31 @@ abstract class Comment implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      object $copyObj An object of \propel\models\Comment (or compatible) type.
+     * @param      object $copyObj An object of \propel2\Post (or compatible) type.
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setPostId($this->getPostId());
+        $copyObj->setTitle($this->getTitle());
         $copyObj->setBody($this->getBody());
         $copyObj->setCreatedAt($this->getCreatedAt());
         $copyObj->setUpdatedAt($this->getUpdatedAt());
+
+        if ($deepCopy) {
+            // important: temporarily setNew(false) because this affects the behavior of
+            // the getter/setter methods for fkey referrer objects.
+            $copyObj->setNew(false);
+
+            foreach ($this->getComments() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addComment($relObj->copy($deepCopy));
+                }
+            }
+
+        } // if ($deepCopy)
+
         if ($makeNew) {
             $copyObj->setNew(true);
             $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
@@ -1185,7 +1207,7 @@ abstract class Comment implements ActiveRecordInterface
      * objects.
      *
      * @param  boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return \propel\models\Comment Clone of current object.
+     * @return \propel2\Post Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1198,55 +1220,238 @@ abstract class Comment implements ActiveRecordInterface
         return $copyObj;
     }
 
+
     /**
-     * Declares an association between this object and a ChildPost object.
+     * Initializes a collection based on the name of a relation.
+     * Avoids crafting an 'init[$relationName]s' method name
+     * that wouldn't work when StandardEnglishPluralizer is used.
      *
-     * @param  ChildPost $v
-     * @return $this|\propel\models\Comment The current object (for fluent API support)
+     * @param      string $relationName The name of the relation to initialize
+     * @return void
+     */
+    public function initRelation($relationName)
+    {
+        if ('Comment' == $relationName) {
+            return $this->initComments();
+        }
+    }
+
+    /**
+     * Clears out the collComments collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return void
+     * @see        addComments()
+     */
+    public function clearComments()
+    {
+        $this->collComments = null; // important to set this to NULL since that means it is uninitialized
+    }
+
+    /**
+     * Reset is the collComments collection loaded partially.
+     */
+    public function resetPartialComments($v = true)
+    {
+        $this->collCommentsPartial = $v;
+    }
+
+    /**
+     * Initializes the collComments collection.
+     *
+     * By default this just sets the collComments collection to an empty array (like clearcollComments());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param      boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initComments($overrideExisting = true)
+    {
+        if (null !== $this->collComments && !$overrideExisting) {
+            return;
+        }
+        $this->collComments = new ObjectCollection();
+        $this->collComments->setModel('\propel2\Comment');
+    }
+
+    /**
+     * Gets an array of ChildComment objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this ChildPost is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @return ObjectCollection|ChildComment[] List of ChildComment objects
      * @throws PropelException
      */
-    public function setPost(ChildPost $v = null)
+    public function getComments(Criteria $criteria = null, ConnectionInterface $con = null)
     {
-        if ($v === null) {
-            $this->setPostId(NULL);
-        } else {
-            $this->setPostId($v->getId());
+        $partial = $this->collCommentsPartial && !$this->isNew();
+        if (null === $this->collComments || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collComments) {
+                // return empty collection
+                $this->initComments();
+            } else {
+                $collComments = ChildCommentQuery::create(null, $criteria)
+                    ->filterByPost($this)
+                    ->find($con);
+
+                if (null !== $criteria) {
+                    if (false !== $this->collCommentsPartial && count($collComments)) {
+                        $this->initComments(false);
+
+                        foreach ($collComments as $obj) {
+                            if (false == $this->collComments->contains($obj)) {
+                                $this->collComments->append($obj);
+                            }
+                        }
+
+                        $this->collCommentsPartial = true;
+                    }
+
+                    return $collComments;
+                }
+
+                if ($partial && $this->collComments) {
+                    foreach ($this->collComments as $obj) {
+                        if ($obj->isNew()) {
+                            $collComments[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collComments = $collComments;
+                $this->collCommentsPartial = false;
+            }
         }
 
-        $this->aPost = $v;
+        return $this->collComments;
+    }
 
-        // Add binding for other direction of this n:n relationship.
-        // If this object has already been added to the ChildPost object, it will not be re-added.
-        if ($v !== null) {
-            $v->addComment($this);
+    /**
+     * Sets a collection of ChildComment objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param      Collection $comments A Propel collection.
+     * @param      ConnectionInterface $con Optional connection object
+     * @return $this|ChildPost The current object (for fluent API support)
+     */
+    public function setComments(Collection $comments, ConnectionInterface $con = null)
+    {
+        /** @var ChildComment[] $commentsToDelete */
+        $commentsToDelete = $this->getComments(new Criteria(), $con)->diff($comments);
+
+
+        $this->commentsScheduledForDeletion = $commentsToDelete;
+
+        foreach ($commentsToDelete as $commentRemoved) {
+            $commentRemoved->setPost(null);
         }
 
+        $this->collComments = null;
+        foreach ($comments as $comment) {
+            $this->addComment($comment);
+        }
+
+        $this->collComments = $comments;
+        $this->collCommentsPartial = false;
 
         return $this;
     }
 
-
     /**
-     * Get the associated ChildPost object
+     * Returns the number of related Comment objects.
      *
-     * @param  ConnectionInterface $con Optional Connection object.
-     * @return ChildPost The associated ChildPost object.
+     * @param      Criteria $criteria
+     * @param      boolean $distinct
+     * @param      ConnectionInterface $con
+     * @return int             Count of related Comment objects.
      * @throws PropelException
      */
-    public function getPost(ConnectionInterface $con = null)
+    public function countComments(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
     {
-        if ($this->aPost === null && ($this->post_id !== null)) {
-            $this->aPost = ChildPostQuery::create()->findPk($this->post_id, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aPost->addComments($this);
-             */
+        $partial = $this->collCommentsPartial && !$this->isNew();
+        if (null === $this->collComments || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collComments) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getComments());
+            }
+
+            $query = ChildCommentQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByPost($this)
+                ->count($con);
         }
 
-        return $this->aPost;
+        return count($this->collComments);
+    }
+
+    /**
+     * Method called to associate a ChildComment object to this object
+     * through the ChildComment foreign key attribute.
+     *
+     * @param  ChildComment $l ChildComment
+     * @return $this|\propel2\Post The current object (for fluent API support)
+     */
+    public function addComment(ChildComment $l)
+    {
+        if ($this->collComments === null) {
+            $this->initComments();
+            $this->collCommentsPartial = true;
+        }
+
+        if (!$this->collComments->contains($l)) {
+            $this->doAddComment($l);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param ChildComment $comment The ChildComment object to add.
+     */
+    protected function doAddComment(ChildComment $comment)
+    {
+        $this->collComments[]= $comment;
+        $comment->setPost($this);
+    }
+
+    /**
+     * @param  ChildComment $comment The ChildComment object to remove.
+     * @return $this|ChildPost The current object (for fluent API support)
+     */
+    public function removeComment(ChildComment $comment)
+    {
+        if ($this->getComments()->contains($comment)) {
+            $pos = $this->collComments->search($comment);
+            $this->collComments->remove($pos);
+            if (null === $this->commentsScheduledForDeletion) {
+                $this->commentsScheduledForDeletion = clone $this->collComments;
+                $this->commentsScheduledForDeletion->clear();
+            }
+            $this->commentsScheduledForDeletion[]= clone $comment;
+            $comment->setPost(null);
+        }
+
+        return $this;
     }
 
     /**
@@ -1256,11 +1461,8 @@ abstract class Comment implements ActiveRecordInterface
      */
     public function clear()
     {
-        if (null !== $this->aPost) {
-            $this->aPost->removeComment($this);
-        }
         $this->id = null;
-        $this->post_id = null;
+        $this->title = null;
         $this->body = null;
         $this->created_at = null;
         $this->updated_at = null;
@@ -1282,9 +1484,14 @@ abstract class Comment implements ActiveRecordInterface
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
+            if ($this->collComments) {
+                foreach ($this->collComments as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
         } // if ($deep)
 
-        $this->aPost = null;
+        $this->collComments = null;
     }
 
     /**
@@ -1294,7 +1501,7 @@ abstract class Comment implements ActiveRecordInterface
      */
     public function __toString()
     {
-        return (string) $this->exportTo(CommentTableMap::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(PostTableMap::DEFAULT_STRING_FORMAT);
     }
 
     /**

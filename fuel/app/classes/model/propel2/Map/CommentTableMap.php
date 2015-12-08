@@ -1,6 +1,6 @@
 <?php
 
-namespace propel\models\Map;
+namespace propel2\Map;
 
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
@@ -11,8 +11,8 @@ use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\RelationMap;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Map\TableMapTrait;
-use propel\models\Comment;
-use propel\models\CommentQuery;
+use propel2\Comment;
+use propel2\CommentQuery;
 
 
 /**
@@ -34,7 +34,7 @@ class CommentTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = 'propel.models.Map.CommentTableMap';
+    const CLASS_NAME = 'propel2.Map.CommentTableMap';
 
     /**
      * The default database name for this class
@@ -49,12 +49,12 @@ class CommentTableMap extends TableMap
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\propel\\models\\Comment';
+    const OM_CLASS = '\\propel2\\Comment';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'propel.models.Comment';
+    const CLASS_DEFAULT = 'propel2.Comment';
 
     /**
      * The total number of columns
@@ -142,8 +142,8 @@ class CommentTableMap extends TableMap
         $this->setName('comment');
         $this->setPhpName('Comment');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\propel\\models\\Comment');
-        $this->setPackage('propel.models');
+        $this->setClassName('\\propel2\\Comment');
+        $this->setPackage('propel2');
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
@@ -158,7 +158,7 @@ class CommentTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Post', '\\propel\\models\\Post', RelationMap::MANY_TO_ONE, array (
+        $this->addRelation('Post', '\\propel2\\Post', RelationMap::MANY_TO_ONE, array (
   0 =>
   array (
     0 => ':post_id',
@@ -365,7 +365,7 @@ class CommentTableMap extends TableMap
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \propel\models\Comment) { // it's a model object
+        } elseif ($values instanceof \propel2\Comment) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
