@@ -69,6 +69,6 @@
     "minimum-stability": "stable",
     "autoload": {
         "psr-0": {"": "fuel/app/classes/model/doctrine"},
-        "psr-4": {"propel\\": "fuel/generated-classes/propel/"}
+        "psr-4": {"propel2\\": "fuel/app/classes/model/propel2"}
     }
 }

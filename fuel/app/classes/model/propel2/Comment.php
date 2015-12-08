@@ -1,11 +1,11 @@
 <?php
 
-namespace propel\models;
+namespace propel2;
 
-use propel\models\Base\PostQuery as BasePostQuery;
+use propel2\Base\Comment as BaseComment;
 
 /**
- * Skeleton subclass for performing query and update operations on the 'post' table.
+ * Skeleton subclass for representing a row from the 'comment' table.
  *
  *
  *
@@ -14,7 +14,7 @@ use propel\models\Base\PostQuery as BasePostQuery;
  * long as it does not already exist in the output directory.
  *
  */
-class PostQuery extends BasePostQuery
+class Comment extends BaseComment
 {
 
 }

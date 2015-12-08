@@ -13,6 +13,10 @@ return [
                     ]
                 ]
             ]
-        ]
-    ]
+        ],
+        'paths' => [
+            'phpDir' => 'app/classes/model',
+            'composerDir' => '..',
+        ],
+    ],
 ];

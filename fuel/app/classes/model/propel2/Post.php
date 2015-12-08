@@ -1,11 +1,11 @@
 <?php
 
-namespace propel\models;
+namespace propel2;
 
-use propel\models\Base\Comment as BaseComment;
+use propel2\Base\Post as BasePost;
 
 /**
- * Skeleton subclass for representing a row from the 'comment' table.
+ * Skeleton subclass for representing a row from the 'post' table.
  *
  *
  *
@@ -14,7 +14,7 @@ use propel\models\Base\Comment as BaseComment;
  * long as it does not already exist in the output directory.
  *
  */
-class Comment extends BaseComment
+class Post extends BasePost
 {
 
 }
