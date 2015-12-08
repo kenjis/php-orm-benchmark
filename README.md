@@ -33,6 +33,8 @@ These are my benchmarks, not yours. **I encourage you to run on your environment
 |yii2               |     9.09|      835.77|
 |phalcon            |     7.70|      150.00|
 
+If you are interested in other resutls, see [OTHER_RESULTS.md].
+
 ## How to Benchmark
 
 (1) Install this repository and install composer packages.
