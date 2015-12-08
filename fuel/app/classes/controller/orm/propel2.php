@@ -1,6 +1,6 @@
 <?php
 
-use \propel\models\PostQuery;
+use \propel2\PostQuery;
 
 class Controller_Orm_Propel2 extends Controller_Base
 {

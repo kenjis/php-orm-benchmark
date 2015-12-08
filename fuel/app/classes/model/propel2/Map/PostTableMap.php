@@ -1,6 +1,6 @@
 <?php
 
-namespace propel\models\Map;
+namespace propel2\Map;
 
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
@@ -11,8 +11,8 @@ use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\RelationMap;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Map\TableMapTrait;
-use propel\models\Post;
-use propel\models\PostQuery;
+use propel2\Post;
+use propel2\PostQuery;
 
 
 /**
@@ -34,7 +34,7 @@ class PostTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = 'propel.models.Map.PostTableMap';
+    const CLASS_NAME = 'propel2.Map.PostTableMap';
 
     /**
      * The default database name for this class
@@ -49,12 +49,12 @@ class PostTableMap extends TableMap
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\propel\\models\\Post';
+    const OM_CLASS = '\\propel2\\Post';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'propel.models.Post';
+    const CLASS_DEFAULT = 'propel2.Post';
 
     /**
      * The total number of columns
@@ -142,8 +142,8 @@ class PostTableMap extends TableMap
         $this->setName('post');
         $this->setPhpName('Post');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\propel\\models\\Post');
-        $this->setPackage('propel.models');
+        $this->setClassName('\\propel2\\Post');
+        $this->setPackage('propel2');
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
@@ -158,7 +158,7 @@ class PostTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Comment', '\\propel\\models\\Comment', RelationMap::ONE_TO_MANY, array (
+        $this->addRelation('Comment', '\\propel2\\Comment', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
     0 => ':post_id',
@@ -374,7 +374,7 @@ class PostTableMap extends TableMap
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \propel\models\Post) { // it's a model object
+        } elseif ($values instanceof \propel2\Post) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
