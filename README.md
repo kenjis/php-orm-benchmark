@@ -6,6 +6,7 @@
 1. Eloquent ORM (illuminate/database) v4.2.17
 1. FuelPHP Orm 1.7.3
 1. Phalcon ORM 2.0.8
+1. Propel ORM 2.0-dev
 1. Yii ActiveRecord 1.1.16
 1. Yii ActiveRecord 2.0.6
 
@@ -48,6 +49,7 @@ These are [motin](https://github.com/motin)'s benchmarks, running on a MacBook P
 |orm                |time (ms)|memory (KB) |
 |-------------------|--------:|-----------:|
 |doctrine           |    77.57|     1297.48|
+|propel2            |    36.83|     1178.08|
 |eloquent           |    25.89|      671.20|
 |yii1               |    14.14|      800.39|
 |fuel               |     9.26|      381.07|
@@ -72,7 +74,13 @@ You may skip Phalcon by running `composer install --ignore-platform-reqs`, if yo
 
 (4) Configure `fuel/app/config/development/db.php`.
 
-(5) Run benchmarks.
+(5) Generate config file for Propel.
+
+~~~
+$ bin/setup.propel2.sh
+~~~
+
+(6) Run benchmarks.
 
 ~~~
 $ php oil r benchmark
@@ -103,9 +111,14 @@ cd docker
 eval "$(docker-machine env default)"
 ~~~
 
+Start the Nginx/PHP server stack:
+~~~
+docker-compose up -d
+~~~
+
 Start the supplied docker shell from within this repository's `docker` folder:
 ~~~
-docker-compose run shell /bin/bash
+docker-compose run shell
 ~~~
 
 Install composer dependencies:
@@ -113,19 +126,24 @@ Install composer dependencies:
 composer install
 ~~~
 
-Start the Nginx/PHP server stack:
-~~~
-docker-compose up -d
-~~~
-
 Create database `php_dev` and import schema `schema/php_dev.sql`:
 ~~~
 bin/setup.mysql.sh
 ~~~
 
+Generate the configuration file for Propel 2:
+~~~
+bin/setup.propel2.sh
+~~~
+
 Run benchmarks:
 ~~~
 php oil r benchmark
+~~~
+
+Format benchmark results into markdown:
+~~~
+bin/results-to-markdown.sh
 ~~~
 
 ### Check the results
@@ -144,5 +162,6 @@ It echoes an URL, which you should open up in your browser.
 * [Eloquent ORM](https://github.com/illuminate/database)
 * [FuelPHP 1.x Orm](http://fuelphp.com/docs/packages/orm/intro.html)
 * [Phalcon ORM](http://docs.phalconphp.com/en/latest/reference/models.html)
+* [Propel 2](http://propelorm.org/)
 * [Yii 1 ActiveRecord](http://www.yiiframework.com/doc/guide/1.1/en/database.ar)
 * [Yii 2 ActiveRecord](http://www.yiiframework.com/doc-2.0/guide-db-active-record.html)

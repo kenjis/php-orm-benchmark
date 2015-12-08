@@ -43,7 +43,7 @@ defined('FUEL_START_MEM') or define('FUEL_START_MEM', memory_get_usage());
 // Load in the Fuel autoloader
 if ( ! file_exists(COREPATH.'classes'.DIRECTORY_SEPARATOR.'autoloader.php'))
 {
-	die('No composer autoloader found. Please run composer to install the FuelPHP framework dependencies first!');
+	die('No FuelPHP autoloader found. Please run composer to install the FuelPHP framework dependencies first!');
 }
 
 require COREPATH.'classes'.DIRECTORY_SEPARATOR.'autoloader.php';
@@ -51,6 +51,9 @@ class_alias('Fuel\\Core\\Autoloader', 'Autoloader');
 
 // Boot the app
 require APPPATH.'bootstrap.php';
+
+// Load the composer autoloader
+require DOCROOT.'..'.DIRECTORY_SEPARATOR.'fuel'.DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'autoload.php';
 
 // Generate the request, execute it and send the output.
 try

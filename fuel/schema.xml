@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<database name="default" defaultIdMethod="native" defaultPhpNamingMethod="underscore" namespace="propel\models">
+  <table name="comment" idMethod="native" phpName="Comment">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="post_id" phpName="PostId" type="INTEGER" required="true"/>
+    <column name="body" phpName="Body" type="LONGVARCHAR" required="true"/>
+    <column name="created_at" phpName="CreatedAt" type="INTEGER" required="true"/>
+    <column name="updated_at" phpName="UpdatedAt" type="INTEGER" required="true"/>
+    <foreign-key foreignTable="post" name="fk_comment_post_id" onDelete="CASCADE">
+      <reference local="post_id" foreign="id"/>
+    </foreign-key>
+    <index name="fk_comment_post_id">
+      <index-column name="post_id"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="post" idMethod="native" phpName="Post">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="title" phpName="Title" type="VARCHAR" size="255" required="true"/>
+    <column name="body" phpName="Body" type="LONGVARCHAR" required="true"/>
+    <column name="created_at" phpName="CreatedAt" type="INTEGER" required="true"/>
+    <column name="updated_at" phpName="UpdatedAt" type="INTEGER" required="true"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+</database>
