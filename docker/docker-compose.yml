@@ -13,7 +13,7 @@ shell:
     DB_PW: local-mysql-pass
     WEB_HOST: nginx
   working_dir: '/repo'
-  command: "true"
+  command: "/bin/bash"
 
 # PHP
 php:
