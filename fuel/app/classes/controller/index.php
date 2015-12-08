@@ -66,20 +66,4 @@ class Controller_Index extends Controller
         
         return View::forge('index/index', $data, false);
     }
-    
-    public function action_show_link()
-    {
-        $timeStart = microtime(true);
-        $memoryStart = memory_get_usage();
-        
-        echo '<ul>';
-        echo '<li>' . Html::anchor('orm/eloquent/get_one', 'Eloquent ORM');
-        echo '<li>' . Html::anchor('orm/fuel/get_one', 'FuelPHP 1.x ORM');
-        echo '<li>' . Html::anchor('orm/phalcon/get_one', 'Phalcon ORM');
-        echo '<li>' . Html::anchor('orm/doctrine/get_one', 'Doctrine ORM');
-        echo '</ul>';
-        
-        echo microtime(true) - $timeStart . " secs<br>\n";
-        echo (memory_get_usage() - $memoryStart)/1024 . " KB\n";
-    }
 }

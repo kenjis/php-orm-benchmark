@@ -20,6 +20,18 @@ echo $div_time, $div_mem;
 
 <hr>
 
+<div>
+<ul>
+<li><?php echo Html::anchor('orm/doctrine/get_one', 'Doctrine ORM'); ?>
+<li><?php echo Html::anchor('orm/propel2/get_one', 'Propel2 ORM'); ?>
+<li><?php echo Html::anchor('orm/eloquent/get_one', 'Eloquent ORM'); ?>
+<li><?php echo Html::anchor('orm/fuel/get_one', 'FuelPHP 1.x Orm'); ?>
+<li><?php echo Html::anchor('orm/phalcon/get_one', 'Phalcon ORM'); ?>
+</ul>
+</div>
+
+<hr>
+
 <footer>
     <p style="text-align: right">This page is a part of <a href="https://github.com/kenjis/php-orm-benchmark">php-orm-benchmark</a>.</p>
 </footer>
