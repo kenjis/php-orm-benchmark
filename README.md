@@ -67,6 +67,12 @@ $ php oil r benchmark
 
 See <http://localhost/>.
 
+You can get markdown table for the results.
+
+~~~
+$ php oil r show:result_table
+~~~
+
 ## References
 
 * [Doctrine ORM](http://www.doctrine-project.org/projects/orm.html)

@@ -90,7 +90,7 @@ php oil r benchmark
 
 Format benchmark results into markdown:
 ~~~
-bin/results-to-markdown.sh
+php oil r show:result_table
 ~~~
 
 ### Check the results
