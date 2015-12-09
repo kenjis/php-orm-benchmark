@@ -44,17 +44,17 @@ These are [motin](https://github.com/motin)'s benchmarks, running on a MacBook P
   * MySQL 5.6.27
   * Nginx 1.7.12
 
-(2015-Dec-07)
+(2015-Dec-09)
 
 |orm                |time (ms)|memory (KB) |
 |-------------------|--------:|-----------:|
-|doctrine           |    77.57|     1297.48|
-|propel2            |    36.83|     1178.08|
-|eloquent           |    25.89|      671.20|
-|yii1               |    14.14|      800.39|
-|fuel               |     9.26|      381.07|
-|yii2               |     7.20|      818.16|
-|phalcon            |     5.66|      149.42|
+|doctrine           |    63.62|     1297.47|
+|propel2            |    29.39|     1134.24|
+|eloquent           |    21.75|      671.20|
+|yii1               |    11.63|      800.38|
+|fuel               |     7.89|      381.06|
+|yii2               |     6.34|      818.15|
+|phalcon            |     4.95|      149.43|
 
 ## How to Benchmark
 
