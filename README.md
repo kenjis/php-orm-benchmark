@@ -6,10 +6,15 @@
 1. Eloquent ORM (illuminate/database) v4.2.17
 1. FuelPHP Orm 1.7.3
 1. Phalcon ORM 2.0.8
+1. Propel ORM 2.0-dev
 1. Yii ActiveRecord 1.1.16
 1. Yii ActiveRecord 2.0.6
 
-## Benchmarking Environment
+## Results
+
+### Benchmarking Environment 1
+
+These are my (kenjis) benchmarks, not yours. **I encourage you to run on your environments.**
 
 * CentOS 6.6 64bit (VM; VirtualBox)
   * PHP 5.5.30 (Remi RPM)
@@ -17,11 +22,7 @@
   * MySQL 5.1
   * Apache 2.2
 
-## Results
-
-These are my benchmarks, not yours. **I encourage you to run on your environments.**
-
-(2015/12/06)
+(2015-Dec-06)
 
 |orm                |time (ms)|memory (KB) |
 |-------------------|--------:|-----------:|
@@ -31,6 +32,29 @@ These are my benchmarks, not yours. **I encourage you to run on your environment
 |fuel               |    13.23|      389.73|
 |yii2               |     9.09|      835.77|
 |phalcon            |     7.70|      150.00|
+
+### Benchmarking Environment 2
+
+These are [motin](https://github.com/motin)'s benchmarks, running on a MacBook Pro (Retina, 15-inch, Mid 2014) using the supplied Docker environment.
+
+* Ubuntu 15.04 64bit (Docker)
+  * PHP-FPM 5.6.4
+    * Zend OPcache 7.0.4-dev
+    * PhalconPHP 2.0.9
+  * MySQL 5.6.27
+  * Nginx 1.7.12
+
+(2015-Dec-09)
+
+|orm                |time (ms)|memory (KB) |
+|-------------------|--------:|-----------:|
+|doctrine           |    63.62|     1297.47|
+|propel2            |    29.39|     1134.24|
+|eloquent           |    21.75|      671.20|
+|yii1               |    11.63|      800.38|
+|fuel               |     7.89|      381.06|
+|yii2               |     6.34|      818.15|
+|phalcon            |     4.95|      149.43|
 
 ## How to Benchmark
 
@@ -58,11 +82,80 @@ $ php oil r benchmark
 
 See <http://localhost/>.
 
+## Benchmarking using the supplied Docker Stack
+
+Use the supplied Docker Stack in order to automatically set up the following benchmarking environments:
+
+* Ubuntu 15.04 64bit (Docker)
+  * PHP-FPM 5.6.4
+    * Zend OPcache 7.0.4-dev
+    * PhalconPHP 2.0.9
+  * MySQL 5.6.27
+  * Nginx 1.7.12
+
+By sharing underlying software stacks, the benchmark results vary only according to the host machine's hardware specs and ORM implementations.
+
+### Getting Started
+
+Install [Docker Toolbox](https://www.docker.com/docker-toolbox).
+
+Cd into the docker directory of this repo and make sure that docker toolbox is available:
+~~~
+cd docker
+eval "$(docker-machine env default)"
+~~~
+
+Start the Nginx/PHP server stack:
+~~~
+docker-compose up -d
+~~~
+
+Start the supplied docker shell from within this repository's `docker` folder:
+~~~
+docker-compose run shell
+~~~
+
+Install composer dependencies:
+~~~
+composer install
+~~~
+
+Create database `php_dev` and import schema `schema/php_dev.sql`:
+~~~
+bin/setup.mysql.sh
+~~~
+
+Generate the configuration file for Propel 2:
+~~~
+bin/setup.propel2.sh
+~~~
+
+Run benchmarks:
+~~~
+php oil r benchmark
+~~~
+
+Format benchmark results into markdown:
+~~~
+bin/results-to-markdown.sh
+~~~
+
+### Check the results
+
+To see the results graph, run the following script from outside the docker shell, from the repository root:
+
+~~~
+bin/docker-url.sh
+~~~
+
+It echoes an URL, which you should open up in your browser.
+
 ## References
 
 * [Doctrine ORM](http://www.doctrine-project.org/projects/orm.html)
 * [Eloquent ORM](https://github.com/illuminate/database)
 * [FuelPHP 1.x Orm](http://fuelphp.com/docs/packages/orm/intro.html)
 * [Phalcon ORM](http://docs.phalconphp.com/en/latest/reference/models.html)
+* [Propel 2](http://propelorm.org/)
 * [Yii 1 ActiveRecord](http://www.yiiframework.com/doc/guide/1.1/en/database.ar)
 * [Yii 2 ActiveRecord](http://www.yiiframework.com/doc-2.0/guide-db-active-record.html)

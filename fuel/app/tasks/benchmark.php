@@ -6,10 +6,10 @@ class Benchmark
 {
     public function run()
     {
-        $url = 'http://localhost';
+        $url = 'http://' . (getenv('WEB_HOST') ? getenv('WEB_HOST') : 'localhost');
         $output = APPPATH  . '/cache/benchmark-results.json';
 
-        $orms = ['doctrine', 'eloquent', 'yii1', 'fuel', 'yii2', 'phalcon'];
+        $orms = ['doctrine', 'propel2', 'eloquent', 'yii1', 'fuel', 'yii2', 'phalcon'];
 
         $data = [];
         $errors = [];
