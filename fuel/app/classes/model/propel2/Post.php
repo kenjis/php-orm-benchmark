@@ -3,6 +3,7 @@
 namespace propel2;
 
 use propel2\Base\Post as BasePost;
+use \Propel\Runtime\ActiveQuery\Criteria;
 
 /**
  * Skeleton subclass for representing a row from the 'post' table.
@@ -16,5 +17,13 @@ use propel2\Base\Post as BasePost;
  */
 class Post extends BasePost
 {
+
+    public function getMostRecentComment()
+    {
+        return CommentQuery::create()
+            ->filterByPost($this)
+            ->orderByCreatedAt(Criteria::DESC)
+            ->findOne();
+    }
 
 }
