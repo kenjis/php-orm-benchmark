@@ -22,11 +22,13 @@ echo $div_time, $div_mem;
 
 <div>
 <ul>
-<li><?php echo Html::anchor('orm/doctrine/get_one', 'Doctrine ORM'); ?>
-<li><?php echo Html::anchor('orm/propel2/get_one', 'Propel2 ORM'); ?>
-<li><?php echo Html::anchor('orm/eloquent/get_one', 'Eloquent ORM'); ?>
-<li><?php echo Html::anchor('orm/fuel/get_one', 'FuelPHP 1.x Orm'); ?>
-<li><?php echo Html::anchor('orm/phalcon/get_one', 'Phalcon ORM'); ?>
+<?php
+    \Config::load('orms', true);
+    $orms = \Config::get('orms.list');
+?>
+<?php foreach ($orms as $orm): ?>
+<li><?php echo Html::anchor('orm/' . $orm . '/get_one', ucfirst($orm)); ?>
+<?php endforeach; ?>
 </ul>
 </div>
 

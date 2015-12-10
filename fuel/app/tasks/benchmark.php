@@ -9,7 +9,8 @@ class Benchmark
         $url = 'http://' . (getenv('WEB_HOST') ? getenv('WEB_HOST') : 'localhost');
         $output = APPPATH  . '/cache/benchmark-results.json';
 
-        $orms = ['doctrine', 'propel2', 'eloquent', 'yii1', 'fuel', 'yii2', 'phalcon'];
+        \Config::load('orms', true);
+        $orms = \Config::get('orms.list');
 
         $data = [];
         $errors = [];
