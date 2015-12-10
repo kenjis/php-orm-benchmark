@@ -33,5 +33,5 @@ DB_HOSTNAME=${DB_HOSTNAME-127.0.0.1};
 "$mysql" --host="$DB_HOSTNAME" -u"$DB_USER" $pw_option -e 'CREATE DATABASE '$DB_NAME';'
 check;
 
-"$mysql" --host="$DB_HOSTNAME" -u"$DB_USER" $pw_option $DB_NAME < $DIR/../../schema/php_dev.sql
+"$mysql" --host="$DB_HOSTNAME" -u"$DB_USER" $pw_option $DB_NAME < $DIR/../schema/php_dev.sql
 check;
