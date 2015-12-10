@@ -98,7 +98,7 @@ Format benchmark results into markdown:
 To see the results graph, run the following script from outside the docker shell, from the repository root:
 
 ~~~
-bin/docker-url.sh
+$ bin/docker-url.sh
 ~~~
 
 It echoes an URL, which you should open up in your browser.
