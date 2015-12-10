@@ -14,7 +14,7 @@
 
 ### Benchmarking Environment
 
-These are my benchmarks, not yours. **I encourage you to run on your environments.**
+These are my benchmarks, not yours. **I encourage you to run on your (production equivalent) environments.**
 
 * CentOS 6.6 64bit (VM; VirtualBox)
   * PHP 5.5.30 (Remi RPM)
