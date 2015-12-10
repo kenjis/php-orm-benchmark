@@ -33,7 +33,7 @@ These are my benchmarks, not yours. **I encourage you to run on your (production
 |yii2               |     9.09|      835.77|
 |phalcon            |     7.70|      150.00|
 
-If you are interested in other resutls, see [OTHER_RESULTS.md].
+If you are interested in other resutls, see [OTHER_RESULTS.md](OTHER_RESULTS.md).
 
 ## How to Benchmark
 
