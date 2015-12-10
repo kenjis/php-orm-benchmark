@@ -22,16 +22,17 @@ These are my benchmarks, not yours. **I encourage you to run on your (production
   * MySQL 5.1
   * Apache 2.2
 
-(2015-12-06)
+(2015-12-10)
 
 |orm                |time (ms)|memory (KB) |
 |-------------------|--------:|-----------:|
-|doctrine           |   139.43|     1310.03|
-|eloquent           |    42.95|      673.75|
-|yii1               |    24.61|      808.42|
-|fuel               |    13.23|      389.73|
-|yii2               |     9.09|      835.77|
-|phalcon            |     7.70|      150.00|
+|doctrine           |   109.81|     1310.06|
+|propel2            |    51.32|     1144.60|
+|eloquent           |    34.46|      673.80|
+|yii1               |    17.84|      808.48|
+|fuel               |    11.74|      389.72|
+|yii2               |     9.09|      835.82|
+|phalcon            |     7.25|      150.05|
 
 If you are interested in other resutls, see [OTHER_RESULTS.md](OTHER_RESULTS.md).
 
