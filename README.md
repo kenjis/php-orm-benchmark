@@ -12,11 +12,11 @@
 
 ## Results
 
-### Benchmarking Environment
-
 These are my benchmarks, not yours. **I encourage you to run on your (production equivalent) environments.**
 
-* CentOS 6.6 64bit (VM; VirtualBox)
+### Benchmarking Environment
+
+* CentOS 6.6 64bit (VM; VirtualBox with Vagrant Synced folder)
   * PHP 5.5.30 (Remi RPM)
     * Zend OPcache v7.0.4-dev
   * MySQL 5.1
@@ -83,3 +83,9 @@ $ php oil r show:result_table
 * [Propel 2](http://propelorm.org/)
 * [Yii 1 ActiveRecord](http://www.yiiframework.com/doc/guide/1.1/en/database.ar)
 * [Yii 2 ActiveRecord](http://www.yiiframework.com/doc-2.0/guide-db-active-record.html)
+
+## Other Benchmarks
+
+* [François Zaninotto php-orm-benchmark with updated vendors](https://github.com/Big-Shark/forked-php-orm-benchmark)
+* [PHP Framework Benchmark](https://github.com/kenjis/php-framework-benchmark)
+* [PHP User Agent Parser Benchmarks](https://github.com/kenjis/user-agent-parser-benchmarks)
