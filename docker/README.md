@@ -37,6 +37,8 @@ These are [motin](https://github.com/motin)'s benchmarks, running on a MacBook P
 
 ## Benchmarking using the supplied Docker Stack
 
+@TODO This Docker stack does not work.
+
 Use the supplied Docker Stack in order to automatically set up the following benchmarking environments:
 
 * Ubuntu 15.04 64bit (Docker)
@@ -54,43 +56,43 @@ Install [Docker Toolbox](https://www.docker.com/docker-toolbox).
 
 Cd into the docker directory of this repo and make sure that docker toolbox is available:
 ~~~
-cd docker
-eval "$(docker-machine env default)"
+$ cd docker
+$ eval "$(docker-machine env default)"
 ~~~
 
 Start the Nginx/PHP server stack:
 ~~~
-docker-compose up -d
+$ docker-compose up -d
 ~~~
 
 Start the supplied docker shell from within this repository's `docker` folder:
 ~~~
-docker-compose run shell
+$ docker-compose run shell
 ~~~
 
 Install composer dependencies:
 ~~~
-composer install
+# composer install
 ~~~
 
 Create database `php_dev` and import schema `schema/php_dev.sql`:
 ~~~
-bin/setup.mysql.sh
+# bin/setup.mysql.sh
 ~~~
 
 Generate the configuration file for Propel 2:
 ~~~
-bin/setup.propel2.sh
+# bin/setup.propel2.sh
 ~~~
 
 Run benchmarks:
 ~~~
-php oil r benchmark
+# php oil r benchmark
 ~~~
 
 Format benchmark results into markdown:
 ~~~
-php oil r show:result_table
+# php oil r show:result_table
 ~~~
 
 ### Check the results

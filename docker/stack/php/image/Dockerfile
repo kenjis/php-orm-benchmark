@@ -45,7 +45,7 @@ RUN apt-get install -y -q \
 
 # HHVM binaries
 RUN apt-get install -y -q \
-        hhvm=3.10.1* \
+        hhvm=3.11.0* \
   || (echo "hhvm \n $(apt-cache show hhvm | grep -i version)" && \
       exit 1)
 
