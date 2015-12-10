@@ -37,8 +37,6 @@ These are [motin](https://github.com/motin)'s benchmarks, running on a MacBook P
 
 ## Benchmarking using the supplied Docker Stack
 
-@TODO This Docker stack does not work.
-
 Use the supplied Docker Stack in order to automatically set up the following benchmarking environments:
 
 * Ubuntu 15.04 64bit (Docker)
