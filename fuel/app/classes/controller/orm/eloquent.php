@@ -4,7 +4,7 @@ class Controller_Orm_Eloquent extends Controller_Base
 {
     public function setup()
     {
-        $db = $this->get_db_params();
+        $db = DbConfig::get_params();
         
         $capsule = new Illuminate\Database\Capsule\Manager;
         $capsule->addConnection([

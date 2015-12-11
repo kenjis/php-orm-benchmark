@@ -50,14 +50,18 @@ You may skip Phalcon by running `composer install --ignore-platform-reqs`, if yo
 
 (2) Set `public` folder as your web document root. If you access <http://localhost/>, you can see the results graph.
 
-(3) Create database `php_dev` and import schema `schema/php_dev.sql`.
+(3) Configure `fuel/app/config/development/db.php`.
 
-(4) Configure `fuel/app/config/development/db.php`.
+(4) Create database `php_dev` and import schema `schema/php_dev.sql`.
+
+~~~
+$ php oil r setup:mysql
+~~~
 
 (5) Generate config file for Propel.
 
 ~~~
-$ bin/setup.propel2.sh
+$ php oil r setup:propel2
 ~~~
 
 (6) Run benchmarks.

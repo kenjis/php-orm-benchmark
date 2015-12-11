@@ -12,7 +12,7 @@ class Controller_Orm_Yii2 extends Controller_Base
         require($basePath . '/vendor/yiisoft/yii2/Yii.php');
         Yii::setAlias('@model', "$basePath/app/classes/model");
 
-        $dbConfig = $this->get_db_params();
+        $dbConfig = DbConfig::get_params();
         $db = new \yii\db\Connection([
             'dsn' => "mysql:host={$dbConfig['host']};dbname={$dbConfig['dbname']}",
             'username' => $dbConfig['username'],

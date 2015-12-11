@@ -75,12 +75,12 @@ Install composer dependencies:
 
 Create database `php_dev` and import schema `schema/php_dev.sql`:
 ~~~
-# bin/setup.mysql.sh
+# php oil r setup:mysql
 ~~~
 
 Generate the configuration file for Propel 2:
 ~~~
-# bin/setup.propel2.sh
+# php oil r setup:propel2
 ~~~
 
 Run benchmarks:

@@ -9,7 +9,7 @@ class Controller_Orm_Doctrine extends Controller_Base
 
     public function setup()
     {
-        $db = $this->get_db_params();
+        $db = DbConfig::get_params();
         
         $entitiesPaths = [APPPATH . 'classes/model/doctrine'];
         $isDevMode = false;
